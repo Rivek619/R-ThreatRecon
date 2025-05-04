@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>R-Threat Recon Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #121212;
+      color: #f1f1f1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      color: #00ffcc;
+    }
+
+    p {
+      margin: 10px 0;
+      text-align: center;
+      color: #ccc;
+    }
+
+    #input {
+      width: 80%;
+      max-width: 600px;
+      padding: 14px;
+      font-size: 18px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      background-color: #00ffcc;
+      color: #000;
+      font-weight: bold;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      margin: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #00cc99;
+    }
+
+    .link-group {
+      margin-top: 20px;
+      margin-bottom: 30px;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .link-group button {
+      width: 100%;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .social-buttons {
+      margin-top: 20px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 R-Threat Intelligence Recon Generator</h1>
+  <p>Enter a domain, subdomain or more than one (comma-separated):</p>
+  <input type="text" id="input" placeholder="e.g. subdomain.target.com">
+  <button onclick="generateLinks()">Generate Links</button>
+
+  <div id="results"></div>
+
+  <div class="social-buttons">
+    <button onclick="window.open('https://www.linkedin.com/in/rivektamang/', '_blank')">🔗 LinkedIn</button>
+    <button onclick="window.open('https://rivudon.medium.com/', '_blank')">✍️ Medium</button>
+  </div>
+
+  <footer>— by RivuDon (Rivek Raj Tamang)</footer>
+
+  <script>
+    function generateLinks() {
+      const input = document.getElementById('input').value;
+      const subdomains = input.split(',').map(s => s.trim()).filter(Boolean);
+      const results = document.getElementById('results');
+      results.innerHTML = '';
+
+      subdomains.forEach(sub => {
+        const group = document.createElement('div');
+        group.className = 'link-group';
+
+        const urls = [
+          `https://web.archive.org/cdx/search/cdx?url=*.${sub}&fl=original&collapse=urlkey`,
+          `https://www.google.com/search?q=site:${sub}`,
+          `https://search.yahoo.com/search?p=site:${sub}`,
+          `https://www.bing.com/search?q=site:${sub}`,
+          `https://duckduckgo.com/?q=site:${sub}`,
+          `https://urlscan.io/search/#${sub}`
+        ];
+
+        urls.forEach(link => {
+          const btn = document.createElement('button');
+          btn.textContent = link;
+          btn.title = link;
+          btn.onclick = () => window.open(link, '_blank');
+          group.appendChild(btn);
+        });
+
+        results.appendChild(group);
+      });
+    }
+  </script>
+</body>
+</html>
